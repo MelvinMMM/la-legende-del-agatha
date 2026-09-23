@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Légende d'El Agatha</title>
+    <link rel="icon" type="image/png" href="Assets/logo.png">
+    <link rel="shortcut icon" type="image/png" href="Assets/logo.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Outfit:wght@400;700;900&family=Chakra+Petch:ital,wght@0,600;0,700;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Canvas 2D Pixel Art Plein Écran -->
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Fond de transition écran noir -->
+        <div id="fade-overlay" class="fade-overlay"></div>
+
+        <!-- Overlays UI -->
+
+        <!-- 0. Écran Press Start Initial -->
+        <div id="start-screen" class="ui-screen active">
+            <div class="start-header">
+                <img src="Assets/logo.png" class="game-logo-img" alt="Logo El Agatha">
+                <h1 class="game-title">LA LÉGENDE D'EL AGATHA</h1>
+            </div>
+            
+            <div class="press-start-prompt" id="press-start-btn">
+                <p class="press-start-text">PRESS START</p>
+                <p class="press-start-sub">« CLIQUE OU APPUIE SUR UNE TOUCHE POUR DÉMARRER »</p>
+            </div>
+
+            <div class="menu-footer">
+                <p>Projet 2D Pixel Art • « La chica que lucha contra el destino ! »</p>
+            </div>
+        </div>
+
+        <!-- 1. Écran Menu Principal -->
+        <div id="menu-screen" class="ui-screen hidden">
+            <div class="menu-header">
+                <img src="Assets/logo.png" class="game-logo-img" alt="Logo El Agatha">
+                <h1 class="game-title">LA LÉGENDE D'EL AGATHA</h1>
+            </div>
+            
+            <div class="menu-content">
+                <div class="menu-buttons">
+                    <button id="btn-new-game" class="btn btn-primary">
+                        NOUVELLE PARTIE
+                    </button>
+                    <button id="btn-continue" class="btn btn-secondary">
+                        CONTINUER LA PARTIE
+                    </button>
+                    <button id="btn-episodes-menu" class="btn btn-tertiary">
+                        SÉLECTION DES ÉPISODES
+                    </button>
+                    <button id="btn-fullscreen" class="btn btn-fullscreen">
+                        PLEIN ÉCRAN
+                    </button>
+                    <button id="btn-options" class="btn btn-small">
+                        OPTION / SON
+                    </button>
+                </div>
+            </div>
+
+            <div class="menu-footer">
+                <p>Projet 2D Pixel Art • « La chica que lucha contra el destino ! »</p>
+            </div>
+        </div>
+
+        <!-- 2. Écran Sélecteur d'Épisodes -->
+        <div id="episodes-screen" class="ui-screen hidden">
+            <div class="episodes-header">
+                <h2 class="screen-title">SÉLECTION DES ÉPISODES</h2>
+                <p class="screen-subtitle">Choisis ton chapitre dans la légende d'Agatha</p>
+            </div>
+
+            <div class="episodes-grid">
+                <!-- Épisode 1 -->
+                <div class="episode-card active" id="card-ep1">
+                    <div class="ep-badge">ÉPISODE 1</div>
+                    <h3 class="ep-title" id="title-ep1">Los Exámenes Finales</h3>
+                    <p class="ep-desc" id="desc-ep1">Agatha affronte les premières vagues d'examens et de fournitures scolaires mortelles !</p>
+                    <div class="ep-boss-tag" id="boss-ep1">Boss: Los Exámenes Finales</div>
+                    <div class="ep-status unlocked" id="status-ep1">DISPONIBLE</div>
+                    <button id="btn-play-ep1" class="btn btn-primary btn-card">CARTE DES NIVEAUX</button>
+                </div>
+
+                <!-- Épisode 2 -->
+                <div class="episode-card locked" id="card-ep2">
+                    <div class="ep-badge locked-badge">ÉPISODE 2</div>
+                    <h3 class="ep-title" id="title-ep2">???</h3>
+                    <p class="ep-desc" id="desc-ep2">???</p>
+                    <div class="ep-boss-tag" id="boss-ep2">Boss: ???</div>
+                    <div class="ep-status locked-text" id="status-ep2">VERROUILLÉ</div>
+                </div>
+
+                <!-- Épisode 3 -->
+                <div class="episode-card locked" id="card-ep3">
+                    <div class="ep-badge locked-badge">ÉPISODE 3</div>
+                    <h3 class="ep-title" id="title-ep3">???</h3>
+                    <p class="ep-desc" id="desc-ep3">???</p>
+                    <div class="ep-boss-tag" id="boss-ep3">Boss: ???</div>
+                    <div class="ep-status locked-text" id="status-ep3">VERROUILLÉ</div>
+                </div>
+
+                <!-- Épisode 4 -->
+                <div class="episode-card locked" id="card-ep4">
+                    <div class="ep-badge locked-badge">ÉPISODE 4</div>
+                    <h3 class="ep-title" id="title-ep4">???</h3>
+                    <p class="ep-desc" id="desc-ep4">???</p>
+                    <div class="ep-boss-tag" id="boss-ep4">Boss: ???</div>
+                    <div class="ep-status locked-text" id="status-ep4">VERROUILLÉ</div>
+                </div>
+
+                <!-- Épisode 5 -->
+                <div class="episode-card locked" id="card-ep5">
+                    <div class="ep-badge locked-badge">ÉPISODE 5</div>
+                    <h3 class="ep-title" id="title-ep5">???</h3>
+                    <p class="ep-desc" id="desc-ep5">???</p>
+                    <div class="ep-boss-tag" id="boss-ep5">Boss: ???</div>
+                    <div class="ep-status locked-text" id="status-ep5">VERROUILLÉ</div>
+                </div>
+
+                <!-- Épisode Final -->
+                <div class="episode-card locked ep-final" id="card-ep6">
+                    <div class="ep-badge locked-badge">ÉPISODE FINAL</div>
+                    <h3 class="ep-title" id="title-ep6">???</h3>
+                    <p class="ep-desc" id="desc-ep6">???</p>
+                    <div class="ep-boss-tag" id="boss-ep6">Boss: ???</div>
+                    <div class="ep-status locked-text" id="status-ep6">VERROUILLÉ</div>
+                </div>
+            </div>
+
+            <button id="btn-back-menu-ep" class="btn btn-secondary">RETOUR AU MENU PRINCIPAL</button>
+        </div>
+
+        <!-- 3. Écran Carte du Monde Clandestine -->
+        <div id="worldmap-screen" class="ui-screen hidden">
+            <div class="map-header">
+                <div class="map-ep-tag">ÉPISODE 1 : LOS EXÁMENES FINALES</div>
+                <h2 class="screen-title">CARTE DES NIVEAUX</h2>
+            </div>
+
+            <div class="worldmap-container">
+                <!-- Nœud 1 -->
+                <div class="map-node node-unlocked" id="node-level-1">
+                    <div class="node-icon">🥊</div>
+                    <div class="node-info">
+                        <span class="node-title">Niveau 1</span>
+                        <span class="node-sub">Ring de Lucha</span>
+                    </div>
+                    <span class="node-status" id="status-level-1">DISPO</span>
+                </div>
+
+                <!-- Nœud 2 -->
+                <div class="map-node node-unlocked" id="node-level-2">
+                    <div class="node-icon">📚</div>
+                    <div class="node-info">
+                        <span class="node-title">Niveau 2</span>
+                        <span class="node-sub">La Salle de Classe</span>
+                    </div>
+                    <span class="node-status" id="status-level-2">DISPO</span>
+                </div>
+
+                <!-- Nœud 3 -->
+                <div class="map-node node-unlocked" id="node-level-3">
+                    <div class="node-icon">🚪</div>
+                    <div class="node-info">
+                        <span class="node-title">Niveau 3</span>
+                        <span class="node-sub">Couloir des Casiers</span>
+                    </div>
+                    <span class="node-status" id="status-level-3">DISPO</span>
+                </div>
+
+                <!-- Nœud 4 -->
+                <div class="map-node node-locked" id="node-level-4">
+                    <div class="node-icon">🎨</div>
+                    <div class="node-info">
+                        <span class="node-title">Niveau 4</span>
+                        <span class="node-sub">Labo ZBrush</span>
+                    </div>
+                    <span class="node-status" id="status-level-4">VERROUILLÉ</span>
+                </div>
+
+                <!-- Nœud Boss (Niveau 5) -->
+                <div class="map-node node-unlocked node-boss" id="node-level-5">
+                    <div class="node-icon">👑</div>
+                    <div class="node-info">
+                        <span class="node-title">BOSS FINAL</span>
+                        <span class="node-sub">Los Exámenes Finales</span>
+                    </div>
+                    <span class="node-status" id="status-level-5">DISPO</span>
+                </div>
+            </div>
+
+            <div class="map-actions">
+                <button id="btn-back-episodes" class="btn btn-secondary">CHOIX DES ÉPISODES</button>
+                <button id="btn-back-menu-map" class="btn btn-tertiary">MENU PRINCIPAL</button>
+            </div>
+        </div>
+
+        <!-- Modal Lore Histoire d'Épisode / Info Verrouillage -->
+        <div id="story-modal" class="modal-overlay hidden">
+            <div class="modal-box story-box">
+                <h2 id="story-title" style="color: #fbbf24; text-shadow: 2px 2px 0 #000; letter-spacing: 1px;">HISTOIRE DE L'ÉPISODE</h2>
+                <div id="story-body" class="story-content-body"></div>
+                <button id="btn-close-story" class="btn btn-secondary" style="width: 100%; margin-top: 18px; padding: 14px; font-size: 1.2rem; font-weight: bold; border-color: #fbbf24;">FERMER ✖</button>
+            </div>
+        </div>
+
+        <!-- 4. Écran Cinématique / Prologue -->
+        <div id="intro-screen" class="ui-screen hidden">
+            <div class="intro-visual-container">
+                <img id="intro-image" src="" alt="Scène d'intro" />
+                <div class="intro-overlay-vignette"></div>
+            </div>
+            
+            <div class="intro-dialog-box">
+                <div class="speaker-tag" id="intro-speaker">VOIX OFF</div>
+                <p id="intro-text" class="dialog-text">Chargement de l'histoire...</p>
+                <div class="dialog-footer">
+                    <button id="btn-skip-intro" class="btn-small">Passer l'intro ⏭️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. HUD en Jeu & Widget Quiz Niveau 2 -->
+        <div id="hud-overlay" class="ui-overlay hidden">
+            <div class="hud-top">
+                <div class="hud-left">
+                    <div class="hud-box hp-container">
+                        <div class="hud-label">PV AGATHA</div>
+                        <div class="hp-bar-outer">
+                            <div id="hp-bar-fill" class="hp-bar-fill"></div>
+                        </div>
+                        <span id="hp-text" class="hp-val">100/100</span>
+                    </div>
+
+                    <div class="hud-box notes-container">
+                        <div class="hud-label">FEUILLES / NOTES</div>
+                        <div id="hud-notes" class="notes-val">📝 0 / 5</div>
+                    </div>
+                </div>
+
+                <div class="hud-right">
+                    <div class="hud-box timer-container">
+                        <div class="hud-label">TEMPS RESTANT</div>
+                        <div id="hud-timer" class="timer-val">60s</div>
+                    </div>
+
+                    <div class="hud-controls-right">
+                        <button id="btn-pause-toggle" class="btn-icon-only" title="Menu Pause (Touche P)">⏸️ [P]</button>
+                        <button id="btn-hud-fullscreen" class="btn-icon-only" title="Plein écran">📺</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Interactif Niveau 2 (Questions sur Tableau Noir) -->
+            <div id="quiz-overlay" class="quiz-box hidden">
+                <div class="quiz-header">
+                    <span class="quiz-tag" id="quiz-tag">📝 QUESTIONS</span>
+                </div>
+                <div id="quiz-question" class="quiz-question">Question ?</div>
+                <div class="quiz-options">
+                    <button id="quiz-opt-1" class="btn btn-secondary quiz-btn"><span class="opt-key">[1]</span> <span id="quiz-opt-1-text">Option 1</span></button>
+                    <button id="quiz-opt-2" class="btn btn-secondary quiz-btn"><span class="opt-key">[2]</span> <span id="quiz-opt-2-text">Option 2</span></button>
+                    <button id="quiz-opt-3" class="btn btn-secondary quiz-btn"><span class="opt-key">[3]</span> <span id="quiz-opt-3-text">Option 3</span></button>
+                </div>
+            </div>
+
+            <div id="ally-notification" class="ally-toast hidden">
+                <div class="ally-avatar" id="ally-avatar">🥊</div>
+                <div class="ally-msg" id="ally-msg">Melvin : "Esquive les lasers Agatha !"</div>
+            </div>
+
+            <div id="powerup-bar" class="powerup-status"></div>
+        </div>
+
+        <!-- 6. Menu Pause (Touche P) -->
+        <div id="pause-modal" class="modal-overlay hidden">
+            <div class="modal-box pause-box">
+                <h2>MENU PAUSE</h2>
+                <p class="modal-desc">Touche [P] pour reprendre à tout moment</p>
+                <div class="menu-buttons pause-buttons">
+                    <button id="btn-resume-game" class="btn btn-primary">
+                        REPRENDRE
+                    </button>
+                    <button id="btn-restart-game" class="btn btn-secondary">
+                        RECOMMENCER LE NIVEAU
+                    </button>
+                    <button id="btn-pause-options" class="btn btn-tertiary">
+                        PARAMÈTRES / SON
+                    </button>
+                    <button id="btn-quit-level" class="btn btn-small btn-danger">
+                        QUITTER LE NIVEAU
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Écran Fin de Niveau / Victoire -->
+        <div id="victory-screen" class="ui-screen hidden">
+            <div class="modal-box victory-box">
+                <h2>NIVEAU COMPLÉTÉ !</h2>
+                <p class="modal-desc">Bravo ! Tu as réussi ce niveau !</p>
+                <div class="stats-summary">
+                    <p>PV Restants : <span id="summary-hp">100</span></p>
+                    <p>Notes Collectées : <span id="summary-notes">5/5</span></p>
+                </div>
+                <div class="modal-buttons">
+                    <button id="btn-map-return" class="btn btn-primary">RETOURNER À LA CARTE DES NIVEAUX 🗺️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. Écran Game Over -->
+        <div id="gameover-screen" class="ui-screen hidden">
+            <div class="modal-box gameover-box">
+                <h2>K.O. - DEVOIR RATTRAPÉ !</h2>
+                <p class="modal-desc">Agatha s'est effondrée sous les tirs...</p>
+                <div class="gameover-buttons-row">
+                    <button id="btn-retry" class="btn btn-primary">RÉESSAYER 🥊</button>
+                    <button id="btn-return-menu" class="btn btn-secondary">MENU PRINCIPAL 🏠</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. Écran Combat RPG au Tour par Tour (Niveau 5) -->
+        <div id="rpg-battle-overlay" class="ui-screen hidden">
+            <!-- Header RPG avec Stage Tag au centre et Contrôles / Timer Infini à droite -->
+            <div class="rpg-top-bar">
+                <div class="rpg-top-left-spacer"></div>
+
+                <div class="rpg-stage-tag" id="rpg-stage-tag">PRUEBA 1 / 5</div>
+
+                <div class="rpg-top-controls">
+                    <div class="hud-box timer-container rpg-timer-box">
+                        <div class="hud-label">TEMPS RESTANT</div>
+                        <div id="rpg-timer-val" class="timer-val">♾️ BOSS</div>
+                    </div>
+                    <div class="hud-controls-right">
+                        <button id="btn-rpg-pause-toggle" class="btn-icon-only" title="Menu Pause (Touche P)">⏸️ [P]</button>
+                        <button id="btn-rpg-fullscreen" class="btn-icon-only" title="Plein écran">📺</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scène d'Arène avec Cartes de Stats au-dessus des Sprites (Agatha Gauche / Boss Droite) -->
+            <div class="rpg-arena">
+                <!-- Agatha Side (Gauche) -->
+                <div class="rpg-fighter-side agatha-side">
+                    <div class="rpg-stat-card agatha-card">
+                        <div class="rpg-name">🥊 EL AGATHA</div>
+                        <div class="rpg-bar-container">
+                            <span class="bar-label">PV</span>
+                            <div class="rpg-bar-track"><div id="rpg-agatha-hp" class="rpg-bar-fill hp-fill" style="width: 100%;"></div></div>
+                            <span id="rpg-agatha-hp-text" class="bar-val">200/200</span>
+                        </div>
+                        <div class="rpg-bar-container">
+                            <span class="bar-label">END</span>
+                            <div class="rpg-bar-track"><div id="rpg-agatha-end" class="rpg-bar-fill end-fill" style="width: 100%;"></div></div>
+                            <span id="rpg-agatha-end-text" class="bar-val">200/200</span>
+                        </div>
+                        <div id="rpg-agatha-buffs" class="rpg-buff-container"></div>
+                    </div>
+                    <div class="rpg-character" id="rpg-agatha-sprite-box">
+                        <img id="rpg-agatha-img" src="Assets/player/agatha0.png" alt="Agatha">
+                    </div>
+                </div>
+
+                <!-- Boss Side (Droite) -->
+                <div class="rpg-fighter-side boss-side">
+                    <div class="rpg-stat-card boss-card">
+                        <div class="rpg-name" id="rpg-boss-name">📜 EL PROYECTO DE FIN DE ESTUDIOS</div>
+                        <div class="rpg-bar-container">
+                            <span class="bar-label">PV</span>
+                            <div class="rpg-bar-track"><div id="rpg-boss-hp" class="rpg-bar-fill hp-fill boss-hp-fill" style="width: 100%;"></div></div>
+                            <span id="rpg-boss-hp-text" class="bar-val">100/100</span>
+                        </div>
+                        <div id="rpg-boss-status" class="rpg-boss-status-text">STATUT: NORMAL</div>
+                    </div>
+                    <div class="rpg-character" id="rpg-boss-sprite-box">
+                        <img id="rpg-boss-img" src="Assets/boss_exam.png" alt="Boss Exam">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Journal de Dialogue de Combat -->
+            <div class="rpg-log-banner" id="rpg-log-banner">
+                <span id="rpg-log-text">🔥 Le combat de Lucha Libre commence ! Choisis ton attaque !</span>
+            </div>
+
+            <!-- Console de Commandes en 2 Blocs (Attaques à gauche / Soutien à droite) -->
+            <div class="rpg-console">
+                <div class="rpg-blocks-container">
+                    <!-- BLOC ATTAQUE (GAUCHE) -->
+                    <div class="rpg-command-block atk-block">
+                        <div class="block-header">🥊 ATTAQUES LUCHA LIBRE</div>
+                        <div class="block-buttons">
+                            <button class="rpg-btn btn-atk" id="btn-rpg-puno">
+                                <span class="btn-icon">🥊</span>
+                                <span class="btn-label">PUÑO DE LA LUCHA</span>
+                                <span class="btn-cost">5 END</span>
+                            </button>
+                            <button class="rpg-btn btn-fast" id="btn-rpg-plancha">
+                                <span class="btn-icon">⚡</span>
+                                <span class="btn-label">PLANCHA VOLADORA</span>
+                                <span class="btn-cost">25 END (PRIORITÉ)</span>
+                            </button>
+                            <button class="rpg-btn btn-heavy" id="btn-rpg-suplex">
+                                <span class="btn-icon">💥</span>
+                                <span class="btn-label">SUPLEX ESCOLAR</span>
+                                <span class="btn-cost">40 END (30% STUN)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BLOC SOUTIEN (DROITE) -->
+                    <div class="rpg-command-block support-block">
+                        <div class="block-header">🛡️ SOUTIEN DES ALLIÉS</div>
+                        <div class="block-buttons">
+                            <button class="rpg-btn btn-melvin" id="btn-rpg-melvin">
+                                <span class="btn-icon">🥊</span>
+                                <span class="btn-label">MELVIN (COACH)</span>
+                                <span class="btn-cost">+50% ATQ (20 END)</span>
+                            </button>
+                            <button class="rpg-btn btn-lucie" id="btn-rpg-lucie">
+                                <span class="btn-icon">📣</span>
+                                <span class="btn-label">LUCIE (MEILLEURE AMIE)</span>
+                                <span class="btn-cost">+30 PV & ESQUIVE (20 END)</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10. Écran Outro & Crédits de Fin d'Épisode 1 -->
+        <div id="outro-screen" class="ui-screen hidden">
+            <div class="outro-container">
+                <div class="outro-header">
+                    <h1 class="outro-title">🏆 ¡ FELICITACIONES, CAMPEONA ! 🏆</h1>
+                    <p class="outro-subtitle">ÉPISODE 1 COMPLÉTÉ : LOS EXÁMENES FINALES TERRASSÉS</p>
+                </div>
+
+                <div class="outro-credits-box" id="outro-credits-box">
+                    <div class="credits-content">
+                        <div class="credit-section">
+                            <h3>🥊 LA LÉGENDE D'EL AGATHA 🥊</h3>
+                            <p class="credit-highlight">Épisode 1 : Los Exámenes Finales</p>
+                        </div>
+
+                        <div class="credit-section">
+                            <h4>HÉROÏNE PRINCIPALE</h4>
+                            <p>El Agatha — La Luchadora des Salles de Cours</p>
+                        </div>
+
+                        <div class="credit-section">
+                            <h4>LE CORNER & LES ALLIÉS</h4>
+                            <p>Melvin — Coach & Entraîneur Tactique</p>
+                            <p>Lucie — Meilleure Amie & Soutien Moral</p>
+                        </div>
+
+                        <div class="credit-section">
+                            <h4>LES ADVERSAIRES VAINCUS</h4>
+                            <p>Les Stylos Lasers & Équerres Mortelles</p>
+                            <p>Les Casiers Cibleurs du Couloir</p>
+                            <p>Le Grand Monolithe du Labo ZBrush</p>
+                            <p>El Proyecto de Fin de Estudios</p>
+                            <p>El Render y Los Showreels</p>
+                            <p>La Prueba Técnica Práctica</p>
+                            <p>El Gran Oral</p>
+                            <p>LOS EXÁMENES FINALES</p>
+                        </div>
+
+                        <div class="credit-section">
+                            <h4>PROCHAINEMENT DANS L'ÉPISODE 2</h4>
+                            <p class="credit-teaser">🚗 "EL PERMISO DE CONDUCIR" 🚗</p>
+                            <p>El Moniteur t'attend au tournant avec son carnet de notes et le créneau infernal...</p>
+                        </div>
+
+                        <div class="credit-section">
+                            <h4>RÉALISATION & GAME DESIGN</h4>
+                            <p>Créé avec passion par Melvin</p>
+                            <p>Musiques : Game Land (Piste 52 - Outro)</p>
+                            <p>Merci d'avoir joué à l'Épisode 1 !</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="outro-actions">
+                    <button id="btn-outro-episodes" class="btn btn-primary">🚗 VOIR L'ÉPISODE 2 DÉBLOQUÉ</button>
+                    <button id="btn-skip-credits" class="btn btn-secondary">MENU PRINCIPAL 🏠</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Audio / Options -->
+        <div id="options-modal" class="modal-overlay hidden">
+            <div class="modal-box options-box">
+                <h3>RÉGLAGES AUDIO</h3>
+                <div class="setting-row">
+                    <label for="volume-bgm">Musique d'ambiance :</label>
+                    <input type="range" id="volume-bgm" min="0" max="1" step="0.05" value="0.6">
+                </div>
+                <div class="setting-row">
+                    <label for="volume-voices">Voix off :</label>
+                    <input type="range" id="volume-voices" min="0" max="1" step="0.05" value="0.9">
+                </div>
+                <button id="btn-close-options" class="btn btn-secondary">FERMER</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts Modulaires (Design Patterns) -->
+    <script src="js/config.js"></script>
+    <script src="js/audioManager.js"></script>
+    <script src="js/saveManager.js"></script>
+    <script src="js/uiManager.js"></script>
+    <script src="js/entities/player.js"></script>
+    <script src="js/entities/enemies.js"></script>
+    <script src="js/entities/powerups.js"></script>
+    <script src="js/factories/enemyFactory.js"></script>
+    <script src="js/strategies/levelStrategies.js"></script>
+    <script src="js/states/gameStates.js"></script>
+    <script src="js/rpgBattleManager.js"></script>
+    <script src="js/gameEngine.js"></script>
+    <script src="js/introManager.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

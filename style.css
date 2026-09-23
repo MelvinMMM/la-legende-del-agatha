@@ -1,0 +1,1552 @@
+/* Declaration des polices officielles Godot */
+@font-face {
+    font-family: 'Viva Mexico';
+    src: url('Assets/Fonts/Â¡Viva MÃ©xico cabrones!.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Outline Style';
+    src: url('Assets/Fonts/Outline Style.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Chiringuito Espacial';
+    src: url('Assets/Fonts/Chiringuito Espacial.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mayan';
+    src: url('Assets/Fonts/Mayan.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Reset & Base Settings */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #05030a;
+    color: #ffffff;
+    font-family: 'Mayan', sans-serif;
+    overflow: hidden;
+}
+
+/* Game Container Box - Plein Ã‰cran */
+#game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-color: #05030a;
+    overflow: hidden;
+}
+
+/* Canvas 2D Plein Ã‰cran */
+#gameCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+/* Transition de fondu au noir */
+.fade-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #05030a;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.45s ease-in-out;
+}
+
+.fade-overlay.active {
+    opacity: 1;
+}
+
+/* UI Screens general */
+.ui-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 25px;
+    z-index: 10;
+    background: rgba(11, 7, 18, 0.78);
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    overflow: hidden;
+}
+
+#victory-screen, #gameover-screen {
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.ui-screen.hidden, .ui-overlay.hidden, .modal-overlay.hidden, .ally-toast.hidden, .quiz-box.hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.ui-screen.active, .ui-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+}
+
+/* Fond FloutÃ© Officiel Godot (ecran menu.jpg) pour Start, Menu, Ã‰pisodes et Prologue */
+#start-screen::before, #menu-screen::before, #episodes-screen::before, #intro-screen::before {
+    content: "";
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    right: -30px;
+    bottom: -30px;
+    background: url('Assets/Image intro/ecran menu.jpg') center/cover no-repeat;
+    filter: blur(14px) brightness(0.55) contrast(1.1);
+    transform: scale(1.08);
+    z-index: -1;
+}
+
+/* 0. Ã‰cran Press Start Initial */
+.start-header {
+    text-align: center;
+    margin-top: 90px;
+    z-index: 2;
+}
+
+.press-start-prompt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    z-index: 2;
+    cursor: pointer;
+    margin-bottom: 50px;
+}
+
+.press-start-text {
+    font-family: 'Chiringuito Espacial', cursive, sans-serif;
+    font-size: 3.4rem;
+    color: #fbbf24;
+    text-shadow: 
+        0 0 25px rgba(251, 191, 36, 0.9), 
+        0 0 50px rgba(244, 63, 94, 0.8),
+        3px 3px 0px #b45309;
+    letter-spacing: 5px;
+    animation: pressStartBlink 1.4s ease-in-out infinite alternate;
+}
+
+.press-start-sub {
+    font-family: 'Mayan', sans-serif;
+    font-size: 1.25rem;
+    color: #e2e8f0;
+    letter-spacing: 2px;
+    text-shadow: 0 0 12px rgba(0, 0, 0, 0.9);
+}
+
+@keyframes pressStartBlink {
+    0% { opacity: 0.3; transform: scale(0.96); }
+    100% { opacity: 1; transform: scale(1.05); }
+}
+
+/* Fond Carte du Monde Clandestine Lucha Libre Sans Aucun Texte */
+#worldmap-screen::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('Assets/map_bg.jpg') center/cover no-repeat;
+    filter: brightness(0.95) contrast(1.1);
+    z-index: -1;
+}
+
+/* 1. Titre du Menu Principal en Â¡Viva MÃ©xico Cabrones! */
+.game-title {
+    font-family: 'Viva Mexico', cursive;
+    font-size: 3.9rem;
+    color: #fbbf24;
+    text-shadow: 
+        5px 5px 0px #b45309,
+        0 0 30px rgba(251, 191, 36, 0.7);
+    line-height: 1.2;
+    margin-bottom: 14px;
+    letter-spacing: 2px;
+}
+
+.game-subtitle {
+    font-family: 'Viva Mexico', cursive;
+    font-size: 1.9rem;
+    color: #e2e8f0;
+    letter-spacing: 3px;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+}
+
+.badge-tag {
+    display: inline-block;
+    background: linear-gradient(90deg, #f43f5e, #ec4899);
+    color: #fff;
+    font-family: 'Viva Mexico', cursive;
+    font-size: 1.15rem;
+    font-weight: 700;
+    padding: 6px 18px;
+    border-radius: 20px;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    box-shadow: 0 0 15px rgba(244, 63, 94, 0.5);
+}
+
+/* 2. Tous les Boutons du Menu en police Mayan */
+.btn {
+    font-family: 'Mayan', sans-serif;
+    font-size: 1.25rem;
+    padding: 16px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    letter-spacing: 1.5px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #ffffff;
+    box-shadow: 0 6px 0 #047857, 0 0 15px rgba(16, 185, 129, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 #047857, 0 0 25px rgba(16, 185, 129, 0.7);
+}
+
+.btn-primary:active {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0 #047857;
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    color: #ffffff;
+    box-shadow: 0 6px 0 #1e40af, 0 0 15px rgba(59, 130, 246, 0.4);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 #1e40af, 0 0 25px rgba(59, 130, 246, 0.7);
+}
+
+.btn-fullscreen {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #ffffff;
+    box-shadow: 0 6px 0 #b45309, 0 0 15px rgba(245, 158, 11, 0.4);
+}
+
+.btn-fullscreen:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 #b45309, 0 0 25px rgba(245, 158, 11, 0.7);
+}
+
+.btn-tertiary {
+    background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    color: #ffffff;
+    box-shadow: 0 6px 0 #4c1d95, 0 0 15px rgba(139, 92, 246, 0.4);
+}
+
+.btn-tertiary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 #4c1d95, 0 0 25px rgba(139, 92, 246, 0.7);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+    color: #ffffff;
+    box-shadow: 0 6px 0 #991b1b, 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 #991b1b, 0 0 25px rgba(239, 68, 68, 0.7);
+}
+
+.btn-disabled, .btn:disabled {
+    opacity: 0.42 !important;
+    filter: grayscale(0.85) !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: 0 4px 0 #334155, 0 0 0 transparent !important;
+    pointer-events: auto !important;
+}
+
+.btn-disabled:hover, .btn:disabled:hover {
+    transform: none !important;
+    filter: grayscale(0.85) !important;
+    box-shadow: 0 4px 0 #334155, 0 0 0 transparent !important;
+}
+
+/* Screen Titles en Chiringuito Espacial */
+.screen-title {
+    font-family: 'Chiringuito Espacial', cursive, sans-serif;
+    font-size: 2.3rem;
+    color: #fbbf24;
+    text-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+    margin-bottom: 8px;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.screen-subtitle {
+    font-family: 'Mayan', sans-serif;
+    font-size: 1.25rem;
+    color: #cbd5e1;
+    text-align: center;
+}
+
+.start-header, .menu-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 30px;
+    z-index: 2;
+}
+
+.game-logo-img {
+    width: 140px;
+    height: auto;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 0 25px rgba(236, 72, 153, 0.75));
+    animation: logoFloat 3s infinite ease-in-out alternate;
+}
+
+@keyframes logoFloat {
+    0% { transform: translateY(0) rotate(-1deg); }
+    100% { transform: translateY(-8px) rotate(1deg); }
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 400px;
+    z-index: 2;
+}
+
+.menu-footer {
+    z-index: 2;
+}
+
+.menu-footer p {
+    font-family: 'Mayan', sans-serif;
+    font-size: 1.1rem;
+    color: #cbd5e1;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+}
+
+/* Ã‰cran SÃ©lecteur d'Ã‰pisodes */
+.episodes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 92%;
+    max-width: 1150px;
+    margin: 15px 0;
+    z-index: 2;
+}
+
+.episode-card {
+    background: rgba(15, 23, 42, 0.88);
+    border: 2px solid #334155;
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    backdrop-filter: blur(6px);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.episode-card.active {
+    border-color: #ec4899;
+    box-shadow: 0 0 25px rgba(236, 72, 153, 0.4);
+    background: rgba(30, 27, 75, 0.92);
+}
+
+.episode-card.active:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 35px rgba(236, 72, 153, 0.7);
+}
+
+.episode-card.locked {
+    opacity: 0.7;
+    border-color: #1e293b;
+    transition: all 0.2s;
+}
+
+.episode-card.locked:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    border-color: #38bdf8;
+}
+
+/* Macarons Ã‰pisode 1, Ã‰pisode 2, Ã‰pisode 3, etc. en police Mayan */
+.ep-badge, .locked-badge, .map-ep-tag {
+    display: inline-block;
+    font-family: 'Mayan', sans-serif !important;
+    font-size: 1.15rem;
+    background: #ec4899;
+    color: #fff;
+    padding: 5px 14px;
+    border-radius: 6px;
+    width: fit-content;
+    margin-bottom: 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.locked-badge {
+    background: #475569;
+}
+
+.ep-title {
+    font-family: 'Chiringuito Espacial', cursive, sans-serif;
+    font-size: 1.5rem;
+    color: #fbbf24;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+}
+
+.ep-boss-tag {
+    font-family: 'Mayan', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #ec4899;
+    margin-bottom: 6px;
+}
+
+.ep-desc {
+    font-family: 'Mayan', sans-serif;
+    font-size: 1.05rem;
+    color: #cbd5e1;
+    line-height: 1.4;
+    margin-bottom: 12px;
+    min-height: 46px;
+}
+
+.ep-status {
+    font-family: 'Mayan', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+}
+
+.ep-status.unlocked { color: #10b981; }
+.ep-status.locked-text { color: #94a3b8; }
+
+.btn-card {
+    font-size: 1.05rem;
+    padding: 12px 14px;
+}
+
+/* Carte du Monde Clandestine Lucha Libre */
+#worldmap-screen {
+    background: transparent;
+}
+
+.map-header {
+    text-align: center;
+    z-index: 10;
+    background: rgba(11, 7, 18, 0.88);
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: 2px solid #ec4899;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 25px rgba(236, 72, 153, 0.4);
+}
+
+.worldmap-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    margin: 0;
+    max-width: none;
+}
+
+/* Alignement parfait des nÅ“uds sur la carte sombre */
+#node-level-1 { position: absolute; left: 17%; top: 36%; transform: translate(-50%, -50%); }
+#node-level-2 { position: absolute; left: 47%; top: 50%; transform: translate(-50%, -50%); }
+#node-level-3 { position: absolute; left: 71%; top: 37%; transform: translate(-50%, -50%); }
+#node-level-4 { position: absolute; left: 58%; top: 76%; transform: translate(-50%, -50%); }
+#node-level-5 { position: absolute; left: 78%; top: 86%; transform: translate(-50%, -50%); }
+
+.map-node {
+    pointer-events: auto;
+    background: rgba(15, 23, 42, 0.94);
+    border: 2px solid #ec4899;
+    border-radius: 12px;
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 145px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.9);
+}
+
+.map-node.node-unlocked {
+    border-color: #ec4899;
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0.6);
+    animation: pulseGlow 2s infinite alternate;
+}
+
+.map-node.node-unlocked:hover {
+    transform: translate(-50%, -50%) scale(1.08);
+    box-shadow: 0 0 35px rgba(236, 72, 153, 0.9);
+    border-color: #f43f5e;
+}
+
+/* Animation spÃ©ciale quand un niveau vient d'Ãªtre dÃ©bloquÃ© ! */
+.map-node.node-just-unlocked {
+    animation: unlockBurst 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite alternate !important;
+    border-color: #fbbf24 !important;
+    box-shadow: 0 0 50px rgba(251, 191, 36, 1), 0 0 100px rgba(236, 72, 153, 0.8) !important;
+}
+
+@keyframes unlockBurst {
+    0% { transform: translate(-50%, -50%) scale(1); filter: brightness(1); }
+    50% { transform: translate(-50%, -50%) scale(1.25); filter: brightness(1.7); }
+    100% { transform: translate(-50%, -50%) scale(1.1); filter: brightness(1.3); }
+}
+
+.map-node.node-completed {
+    border-color: #22c55e;
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
+}
+
+.map-node.node-locked {
+    opacity: 0.6;
+    filter: grayscale(70%);
+    cursor: not-allowed;
+}
+
+.map-node.node-boss {
+    border-color: #ef4444;
+    width: 160px;
+}
+
+.map-node.node-boss.node-unlocked {
+    box-shadow: 0 0 30px rgba(239, 68, 68, 0.8);
+}
+
+.map-connector {
+    display: none;
+}
+
+.node-icon {
+    font-size: 1.8rem;
+}
+
+.node-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    width: 100%;
+}
+
+.node-title {
+    display: block;
+    font-family: 'Outline Style', cursive, sans-serif;
+    font-size: 1.1rem;
+    color: #fbbf24;
+    letter-spacing: 1px;
+    width: 100%;
+    margin-bottom: 2px;
+}
+
+.node-sub {
+    display: block;
+    font-family: 'Mayan', sans-serif;
+    font-size: 0.9rem;
+    color: #cbd5e1;
+    line-height: 1.2;
+    width: 100%;
+}
+
+.node-status {
+    font-family: 'Mayan', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-top: 3px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.map-actions {
+    display: flex;
+    gap: 16px;
+    z-index: 10;
+    margin-bottom: 15px;
+}
+
+/* Modal Story */
+.story-box {
+    width: 680px;
+    max-height: 80vh;
+    overflow-y: auto;
+    border-color: #ec4899;
+    box-shadow: 0 0 35px rgba(236, 72, 153, 0.5);
+    text-align: left;
+    padding: 30px;
+}
+
+.story-box h2 {
+    font-family: 'Chiringuito Espacial', cursive, sans-serif;
+    font-size: 2rem;
+    color: #fbbf24;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.story-content-body {
+    font-family: 'Mayan', sans-serif;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: #f1f5f9;
+    margin-bottom: 25px;
+    white-space: pre-line;
+}
+
+/* Ã‰cran CinÃ©matique / Prologue */
+#intro-screen {
+    padding: 20px 30px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.intro-visual-container {
+    position: relative;
+    width: 100%;
+    height: 72vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    z-index: 2;
+}
+
+.intro-visual-container img {
+    max-width: 80vw;
+    max-height: 65vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border: 3px solid #ec4899;
+    border-radius: 12px;
+    box-shadow: 
+        0 0 25px rgba(236, 72, 153, 0.4),
+        0 0 60px rgba(0, 0, 0, 0.9);
+    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+    transform: translateY(22px);
+}
+
+.intro-overlay-vignette {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: radial-gradient(circle, transparent 65%, rgba(5, 3, 10, 0.8) 95%);
+}
+
+.intro-dialog-box {
+    position: relative;
+    z-index: 20;
+    width: 70%;
+    max-width: 720px;
+    margin-bottom: 15px;
+    background: rgba(15, 23, 42, 0.92);
+    border: 2px solid #ec4899;
+    border-radius: 10px;
+    padding: 12px 20px;
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0.35);
+    backdrop-filter: blur(4px);
+}
+
+.speaker-tag {
+    display: inline-block;
+    background: #f43f5e;
+    color: #fff;
+    font-family: 'Viva Mexico', cursive;
+    font-size: 1rem;
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+}
+
+.dialog-text {
+    font-family: 'Mayan', sans-serif;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: #f8fafc;
+    min-height: 38px;
+}
+
+.dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.btn-small {
+    font-family: 'Mayan', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 6px 14px;
+    border: 1.5px solid #475569;
+    border-radius: 6px;
+    background: #1e293b;
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-intro-ready {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    border: 3px solid #fbbf24 !important;
+    color: #ffffff !important;
+    font-size: 1.2rem !important;
+    padding: 10px 22px !important;
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.8) !important;
+    animation: introReadyGlow 1.2s infinite alternate ease-in-out !important;
+    cursor: pointer !important;
+}
+
+@keyframes introReadyGlow {
+    from { transform: scale(1); box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); }
+    to { transform: scale(1.05); box-shadow: 0 0 35px rgba(251, 191, 36, 1); }
+}
+
+.btn-small:hover {
+    background: #ec4899;
+    border-color: #f43f5e;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(236, 72, 153, 0.5);
+}
+
+/* HUD & Controls RepoussÃ©s vers les bords extÃ©rieurs */
+.ui-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    padding: 15px 25px;
+    z-index: 5;
+}
+
+.hud-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.hud-left {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+}
+
+.hud-right {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+}
+
+.hud-controls-right {
+    display: flex;
+    gap: 10px;
+}
+
+.hud-box {
+    background: rgba(15, 23, 42, 0.88);
+    border: 2px solid #334155;
+    border-radius: 8px;
+    padding: 10px 18px;
+    backdrop-filter: blur(4px);
+    pointer-events: auto;
+}
+
+.hud-label {
+    font-size: 0.85rem;
+    font-family: 'Outline Style', cursive, sans-serif;
+    color: #94a3b8;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+}
+
+.hp-bar-outer {
+    width: 180px;
+    height: 20px;
+    background: #1e293b;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid #475569;
+    margin-bottom: 4px;
+}
+
+.hp-bar-fill {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #ef4444, #22c55e);
+    transition: width 0.2s ease;
+}
+
+.hp-val {
+    font-family: 'Mayan', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #e2e8f0;
+}
+
+.timer-val {
+    font-family: 'Outline Style', cursive, sans-serif;
+    font-size: 1.8rem;
+    color: #fbbf24;
+    text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+    letter-spacing: 1px;
+}
+
+.notes-val {
+    font-family: 'Mayan', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #38bdf8;
+}
+
+.btn-icon-only {
+    background: rgba(15, 23, 42, 0.85);
+    border: 2px solid #334155;
+    color: #fff;
+    font-family: 'Mayan', sans-serif;
+    font-size: 1.2rem;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.2s;
+    font-weight: 700;
+}
+
+.btn-icon-only:hover {
+    background: #334155;
+    border-color: #38bdf8;
+    transform: scale(1.05);
+}
+
+/* Quiz Overlay Blackboard pour Niveau 2 */
+.quiz-box {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 580px;
+    background: rgba(15, 23, 42, 0.94);
+    border: 3px solid #fbbf24;
+    border-radius: 14px;
+    padding: 14px 20px;
+    z-index: 30;
+    pointer-events: auto;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.5), 0 10px 30px rgba(0, 0, 0, 0.8);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.quiz-tag {
+    font-family: 'Outline Style', cursive, sans-serif;
+    font-size: 1.15rem;
+    color: #fbbf24;
+    letter-spacing: 2px;
+    display: inline-block;
+    margin-bottom: 6px;
+}
+
+.quiz-question {
+    font-family: 'Mayan', sans-serif;
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.quiz-options {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.quiz-btn {
+    font-size: 1rem;
+    padding: 10px 14px;
+    flex: 1;
+}
+
+.opt-key {
+    color: #fbbf24;
+    font-weight: 900;
+    margin-right: 6px;
+}
+
+/* Ally Toasts */
+.ally-toast {
+    position: absolute;
+    bottom: 35px;
+    left: 30px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(30, 41, 59, 0.95);
+    border: 2px solid #38bdf8;
+    border-radius: 12px;
+    padding: 12px 20px;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.ally-avatar {
+    font-size: 1.8rem;
+}
+
+.ally-msg {
+    font-family: 'Mayan', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #f1f5f9;
+}
+
+/* Modal Pause, Victory et Game Over centrÃ©s au milieu exact de l'Ã©cran */
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.82);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+    backdrop-filter: blur(5px);
+}
+
+.pause-box {
+    width: 440px;
+    border-color: #ec4899;
+    box-shadow: 0 0 35px rgba(236, 72, 153, 0.5);
+    margin: auto;
+}
+
+.pause-box h2 {
+    color: #fbbf24;
+    font-family: 'Chiringuito Espacial', cursive, sans-serif;
+    font-size: 2rem;
+}
+
+.pause-buttons {
+    width: 100%;
+    align-items: stretch;
+}
+
+/* Modals General & Centrage Parfait au milieu de l'Ã©cran */
+.modal-box {
+    background: rgba(15, 23, 42, 0.95);
+    border: 3px solid #38bdf8;
+    border-radius: 14px;
+    padding: 35px;
+    text-align: center;
+    width: 480px;
+    box-shadow: 0 0 40px rgba(56, 189, 248, 0.4);
+    margin: auto;
+}
+
+.modal-box h2 {
+    font-family: 'Chiringuito Espacial', cursive, sans-serif;
+    font-size: 2rem;
+    margin-bottom: 18px;
+    letter-spacing: 1px;
+}
+
+.victory-box h2 { color: #4ade80; }
+.gameover-box h2 { color: #f87171; border-color: #ef4444; }
+
+.gameover-box {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 45px rgba(239, 68, 68, 0.6) !important;
+    width: 520px !important;
+    padding: 28px 24px !important;
+}
+
+.gameover-buttons-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    margin-top: 18px;
+}
+
+.gameover-buttons-row .btn {
+    flex: 1;
+    font-size: 1rem;
+    padding: 12px 10px;
+    white-space: nowrap;
+}
+
+.modal-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal-desc {
+    font-family: 'Mayan', sans-serif;
+    font-size: 1.15rem;
+    color: #cbd5e1;
+    margin-bottom: 24px;
+}
+
+.stats-summary {
+    background: #1e293b;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    font-family: 'Mayan', sans-serif;
+    font-size: 1.15rem;
+}
+
+.options-box {
+    width: 400px;
+    margin: auto;
+}
+
+.setting-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-family: 'Mayan', sans-serif;
+    font-size: 1.15rem;
+}
+
+.setting-row input {
+    width: 100%;
+}
+
+/* ==========================================================================
+   RPG BATTLE OVERLAY (NIVEAU 5 - COMBAT AU TOUR PAR TOUR)
+   ========================================================================== */
+
+#rpg-battle-overlay {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: url('Assets/E1/bg5.jpg') center center / cover no-repeat !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    padding: 16px 36px 20px 36px !important;
+    box-sizing: border-box !important;
+    z-index: 50 !important;
+    overflow: hidden !important;
+}
+
+#rpg-battle-overlay.hidden {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+#rpg-battle-overlay.active {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* Top bar: Left Spacer, Center Stage Tag, Right Controls + Timer Infini */
+.rpg-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+.rpg-top-left-spacer {
+    width: 220px;
+}
+
+.rpg-stage-tag {
+    font-family: 'Chiringuito Espacial', cursive, sans-serif;
+    font-size: 1.5rem;
+    color: #fbbf24;
+    background: rgba(15, 23, 42, 0.92);
+    border: 3px solid #fbbf24;
+    padding: 6px 28px;
+    border-radius: 30px;
+    box-shadow: 0 0 25px rgba(251, 191, 36, 0.5);
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 0 #000;
+}
+
+.rpg-top-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 220px;
+    justify-content: flex-end;
+}
+
+.rpg-timer-box {
+    margin-bottom: 0 !important;
+}
+
+/* Arena Row (Agatha Left / Boss Right) */
+.rpg-arena {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    padding: 0 60px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+/* Fighter Column (Card on Top, Sprite on Bottom) */
+.rpg-fighter-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 380px;
+}
+
+.agatha-side {
+    align-items: flex-start;
+}
+
+.boss-side {
+    align-items: flex-end;
+}
+
+/* Stat Cards */
+.rpg-stat-card {
+    background: rgba(15, 23, 42, 0.94);
+    border-radius: 12px;
+    padding: 12px 18px;
+    width: 350px;
+    box-sizing: border-box;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+.agatha-card {
+    border: 3px solid #ec4899;
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
+}
+
+.boss-card {
+    border: 3px solid #ef4444;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.4);
+}
+
+.rpg-name {
+    font-family: 'Chiringuito Espacial', cursive, sans-serif;
+    font-size: 1.2rem;
+    color: #fbbf24;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 0 #000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rpg-bar-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+    font-family: 'Mayan', sans-serif;
+    font-size: 0.95rem;
+    font-weight: bold;
+}
+
+.bar-label {
+    width: 38px;
+    color: #cbd5e1;
+    font-size: 0.85rem;
+}
+
+.rpg-bar-track {
+    flex: 1;
+    height: 16px;
+    background: #0f172a;
+    border: 2px solid #475569;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.rpg-bar-fill {
+    height: 100%;
+    transition: width 0.35s ease;
+}
+
+.hp-fill { background: linear-gradient(90deg, #10b981, #22c55e); }
+.end-fill { background: linear-gradient(90deg, #0284c7, #38bdf8); }
+.boss-hp-fill { background: linear-gradient(90deg, #dc2626, #ef4444); }
+
+.bar-val {
+    width: 75px;
+    text-align: right;
+    color: #f1f5f9;
+    font-size: 0.9rem;
+}
+
+.rpg-buff-container {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.buff-badge {
+    background: #1e1b4b;
+    border: 1px solid #fbbf24;
+    color: #fbbf24;
+    font-family: 'Mayan', sans-serif;
+    font-size: 0.8rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.rpg-boss-status-text {
+    font-family: 'Mayan', sans-serif;
+    font-size: 0.9rem;
+    color: #94a3b8;
+    font-weight: bold;
+}
+
+/* Sprites */
+.rpg-character {
+    position: relative;
+    transition: transform 0.25s ease;
+}
+
+.agatha-side img {
+    width: 190px;
+    height: auto;
+    filter: drop-shadow(0 0 25px rgba(236, 72, 153, 0.6));
+}
+
+.boss-side img {
+    width: 250px;
+    height: auto;
+    filter: drop-shadow(0 0 35px rgba(239, 68, 68, 0.7));
+}
+
+/* Combat Log Banner */
+.rpg-log-banner {
+    background: rgba(15, 23, 42, 0.95);
+    border: 3px solid #fbbf24;
+    border-radius: 12px;
+    padding: 10px 20px;
+    text-align: center;
+    font-family: 'Mayan', sans-serif;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #ffffff;
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.35);
+    margin: 6px auto;
+    width: 92%;
+    max-width: 1100px;
+    box-sizing: border-box;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Console: Two side-by-side Blocks */
+.rpg-console {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.rpg-blocks-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 92%;
+    max-width: 1100px;
+}
+
+.rpg-command-block {
+    flex: 1;
+    background: rgba(15, 23, 42, 0.95);
+    border-radius: 14px;
+    padding: 14px 18px;
+    box-sizing: border-box;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.7);
+}
+
+.atk-block {
+    border: 3px solid #ef4444;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+.support-block {
+    border: 3px solid #10b981;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+.block-header {
+    font-family: 'Chiringuito Espacial', cursive, sans-serif;
+    font-size: 1.15rem;
+    color: #fbbf24;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    text-align: center;
+    border-bottom: 2px solid rgba(251, 191, 36, 0.3);
+    padding-bottom: 4px;
+}
+
+.block-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.rpg-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 2px solid #38bdf8;
+    background: #0f172a;
+    color: #ffffff;
+    font-family: 'Mayan', sans-serif;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.rpg-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    filter: brightness(1.2);
+}
+
+.btn-atk { border-color: #ef4444; background: linear-gradient(135deg, #1e1b4b, #31123e); }
+.btn-fast { border-color: #fbbf24; background: linear-gradient(135deg, #2e1065, #4c1d95); }
+.btn-heavy { border-color: #ec4899; background: linear-gradient(135deg, #831843, #500724); }
+.btn-melvin { border-color: #fbbf24; background: linear-gradient(135deg, #451a03, #78350f); }
+.btn-lucie { border-color: #ec4899; background: linear-gradient(135deg, #831843, #be185d); }
+
+.btn-icon { font-size: 1.4rem; margin-right: 8px; }
+.btn-label { font-size: 1.05rem; font-weight: bold; flex: 1; text-align: left; }
+.btn-cost { font-size: 0.8rem; font-weight: bold; color: #fbbf24; background: rgba(0,0,0,0.5); padding: 3px 8px; border-radius: 5px; }
+
+/* ==========================================================================
+   OUTRO SCREEN (FIN DE L'ÉPISODE 1 & CRÉDITS)
+   ========================================================================== */
+
+#outro-screen {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: url('Assets/outro_bg.jpg') center center / cover no-repeat !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 24px 30px !important;
+    box-sizing: border-box !important;
+    z-index: 60 !important;
+    overflow: hidden !important;
+}
+
+#outro-screen.hidden {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+#outro-screen.active {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+.outro-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 860px;
+    height: 92vh;
+    background: rgba(11, 7, 24, 0.88);
+    border: 3px solid #fbbf24;
+    border-radius: 16px;
+    box-shadow: 0 0 40px rgba(251, 191, 36, 0.45);
+    padding: 20px 28px;
+    box-sizing: border-box;
+}
+
+.outro-header {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.outro-title {
+    font-family: 'Chiringuito Espacial', cursive, sans-serif;
+    font-size: 1.8rem;
+    color: #fbbf24;
+    letter-spacing: 2px;
+    text-shadow: 3px 3px 0 #000;
+    margin-bottom: 4px;
+}
+
+.outro-subtitle {
+    font-family: 'Mayan', sans-serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #38bdf8;
+    letter-spacing: 1px;
+}
+
+.outro-credits-box {
+    flex: 1;
+    width: 100%;
+    overflow-y: auto;
+    background: rgba(15, 23, 42, 0.8);
+    border: 2px solid #475569;
+    border-radius: 12px;
+    padding: 16px 20px;
+    box-sizing: border-box;
+    margin-bottom: 14px;
+    scrollbar-width: thin;
+    scrollbar-color: #fbbf24 #0f172a;
+}
+
+.credits-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    font-family: 'Mayan', sans-serif;
+}
+
+.credit-section h3 {
+    font-family: 'Chiringuito Espacial', cursive, sans-serif;
+    font-size: 1.4rem;
+    color: #ec4899;
+    margin-bottom: 4px;
+}
+
+.credit-section h4 {
+    font-family: 'Chiringuito Espacial', cursive, sans-serif;
+    font-size: 1.15rem;
+    color: #fbbf24;
+    margin-bottom: 4px;
+}
+
+.credit-section p {
+    font-size: 1rem;
+    color: #cbd5e1;
+    margin: 2px 0;
+}
+
+.credit-highlight {
+    color: #38bdf8 !important;
+    font-weight: bold;
+    font-size: 1.1rem !important;
+}
+
+.credit-teaser {
+    color: #10b981 !important;
+    font-weight: bold;
+    font-size: 1.15rem !important;
+}
+
+.outro-actions {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    width: 100%;
+}
+

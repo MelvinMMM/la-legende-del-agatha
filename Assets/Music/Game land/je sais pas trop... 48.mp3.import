@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bc73a44xa0xv5"
+path="res://.godot/imported/je sais pas trop... 48.mp3-179136089877cedb6ef0f6bb9780bb9c.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/Game land/je sais pas trop... 48.mp3"
+dest_files=["res://.godot/imported/je sais pas trop... 48.mp3-179136089877cedb6ef0f6bb9780bb9c.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
