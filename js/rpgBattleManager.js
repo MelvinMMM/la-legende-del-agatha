@@ -188,7 +188,7 @@ class RPGBattleManager {
 
         switch (actionType) {
             case 'puno': {
-                const baseDmg = 200 * dmgMultiplier;
+                const baseDmg = 20 * dmgMultiplier;
                 this.currentBoss.hp -= baseDmg;
                 this.logText.textContent = `🥊 Agatha lance PUÑO DE LA LUCHA ! (-${Math.round(baseDmg)} PV)`;
                 break;
