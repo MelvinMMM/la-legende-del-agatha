@@ -1941,6 +1941,26 @@ html, body {
     color: #cbd5e1;
 }
 
+.btn-handbrake {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    border: 2px solid #fbbf24;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border-radius: 8px;
+}
+
+.btn-handbrake:hover {
+    transform: scale(1.02);
+    filter: brightness(1.15);
+}
+
 /* Round 2 : Asphalt Controls & Speedometer */
 .asphalt-hud-row {
     display: flex;

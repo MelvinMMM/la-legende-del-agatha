@@ -81,6 +81,7 @@ class DrivingEngine3D {
         // Strikes on El Moniteur's notebook
         this.strikes = 0;
         this.maxStrikes = 3;
+        this.strikeCooldown = 0;
 
         this.initDOM();
         this.initInputs();
@@ -101,6 +102,10 @@ class DrivingEngine3D {
         const btnBlinkR = document.getElementById('btn-blink-right');
         if (btnBlinkL) btnBlinkL.addEventListener('click', () => this.toggleBlinker('left'));
         if (btnBlinkR) btnBlinkR.addEventListener('click', () => this.toggleBlinker('right'));
+
+        // Handbrake Release Button
+        const btnHandbrake = document.getElementById('btn-ep2-release-handbrake');
+        if (btnHandbrake) btnHandbrake.addEventListener('click', () => this.tryReleaseHandbrake());
 
         // Pause & Fullscreen
         const btnPause = document.getElementById('btn-ep2-pause');
@@ -124,7 +129,11 @@ class DrivingEngine3D {
             if (e.code === 'ArrowLeft' || e.code === 'KeyA') this.keys.left = true;
             if (e.code === 'ArrowRight' || e.code === 'KeyD') this.keys.right = true;
             if (e.code === 'Space') {
-                this.keys.space = true;
+                if (this.currentRound === 1 && !this.carState.hillLaunched) {
+                    this.tryReleaseHandbrake();
+                } else {
+                    this.keys.space = true;
+                }
                 e.preventDefault();
             }
 
@@ -269,6 +278,7 @@ class DrivingEngine3D {
         this.isRunning = true;
         this.isPaused = false;
         this.strikes = 0;
+        this.strikeCooldown = 0;
         this.activeBlinker = null;
         this.updateBlinkerUI();
 
@@ -284,6 +294,13 @@ class DrivingEngine3D {
 
         // Setup HUD
         this.setupRoundHUD(roundNum);
+
+        const btnHandbrake = document.getElementById('btn-ep2-release-handbrake');
+        if (btnHandbrake) {
+            btnHandbrake.disabled = false;
+            btnHandbrake.textContent = "DÉSERRER LE FREIN À MAIN [ESPACE] 🛑";
+            btnHandbrake.style.background = "";
+        }
 
         // Start render loop
         this.clock.start();
@@ -810,6 +827,9 @@ class DrivingEngine3D {
     }
 
     addStrike(reason) {
+        if (this.strikeCooldown > 0) return;
+        this.strikeCooldown = 2.0; // 2 secondes d'immunité contre les pénalités répétées en boucle
+
         this.strikes++;
         this.updateStrikesUI();
 
@@ -838,6 +858,11 @@ class DrivingEngine3D {
     }
 
     update(delta) {
+        // Décompte du cooldown d'invulnérabilité
+        if (this.strikeCooldown > 0) {
+            this.strikeCooldown -= delta;
+        }
+
         // Blinker flashing
         this.blinkerTimer += delta * 4;
         const blinkOn = Math.floor(this.blinkerTimer) % 2 === 0;
@@ -888,16 +913,17 @@ class DrivingEngine3D {
     updateRound1(delta) {
         const rpmBar = document.getElementById('ep2-rpm-bar');
         const rpmText = document.getElementById('ep2-rpm-text');
+        const status = document.getElementById('ep2-clutch-status');
 
         if (!this.carState.hillLaunched) {
-            // Player is balancing throttle [UP] and brake [DOWN]
+            // Player is balancing throttle [UP]
             if (this.keys.up) {
-                this.carState.rpm = Math.min(6500, this.carState.rpm + delta * 2800);
+                this.carState.rpm = Math.min(6500, this.carState.rpm + delta * 3000);
             } else {
-                this.carState.rpm = Math.max(900, this.carState.rpm - delta * 2400);
+                this.carState.rpm = Math.max(900, this.carState.rpm - delta * 2200);
             }
 
-            const isSweetSpot = (this.carState.rpm >= 2400 && this.carState.rpm <= 3800);
+            const isSweetSpot = (this.carState.rpm >= 2200 && this.carState.rpm <= 3800);
             if (rpmBar) {
                 const pct = Math.min(100, (this.carState.rpm / 6500) * 100);
                 rpmBar.style.width = pct + '%';
@@ -905,27 +931,24 @@ class DrivingEngine3D {
             }
             if (rpmText) rpmText.textContent = `${Math.round(this.carState.rpm)} RPM`;
 
-            this.updateEngineSound(this.carState.rpm);
-
-            // Releasing the brake [DOWN is false] while in sweet spot launches the car!
-            if (!this.keys.down && isSweetSpot && this.keys.up) {
-                this.carState.hillLaunched = true;
-                this.carState.speed = 12;
-                const status = document.getElementById('ep2-clutch-status');
-                if (status) {
-                    status.textContent = "✅ EMBRAYAGE RÉUSSI ! GRAVIS LA CÔTE !";
+            if (status) {
+                if (isSweetSpot) {
+                    status.textContent = "🎯 ZONE VERTE ATTEINTE ! Appuie sur [ESPACE] ou le bouton pour démarrer !";
                     status.style.color = "#10b981";
+                } else if (this.carState.rpm > 3800) {
+                    status.textContent = "⚠️ SURRÉGIME ! Relâche un peu l'accélérateur [↑] !";
+                    status.style.color = "#ef4444";
+                } else {
+                    status.textContent = "Maintiens [↑] pour monter dans la zone verte (2200-3800 RPM)";
+                    status.style.color = "#cbd5e1";
                 }
-            } else if (!this.keys.down && this.carState.rpm < 1600) {
-                // Calage ! Engine dies
-                this.addStrike("Moteur calé ! Embrayage relâché trop bas");
-                this.carState.rpm = 900;
-                this.carState.speed = 0;
             }
+
+            this.updateEngineSound(this.carState.rpm);
         } else {
             // Car is driving up the hill!
             if (this.keys.up) this.carState.speed = Math.min(22, this.carState.speed + delta * 15);
-            else this.carState.speed *= 0.98;
+            else this.carState.speed = Math.max(6, this.carState.speed - delta * 6);
 
             if (this.keys.left) this.carState.x = Math.max(-4.5, this.carState.x - delta * 8);
             if (this.keys.right) this.carState.x = Math.min(4.5, this.carState.x + delta * 8);
@@ -934,12 +957,42 @@ class DrivingEngine3D {
             this.car.position.set(this.carState.x, 1.0 + (this.carState.z * Math.sin(this.roadSlope)), this.carState.z * Math.cos(this.roadSlope));
             this.car.rotation.x = -this.roadSlope;
 
-            this.updateEngineSound(this.carState.speed * 180);
+            this.updateEngineSound(this.carState.speed * 180 + 1000);
 
             // Checkpoint reached?
-            if (this.carState.z >= 175) {
+            if (this.carState.z >= 170) {
                 this.triggerVictory();
             }
+        }
+    }
+
+    tryReleaseHandbrake() {
+        if (this.currentRound !== 1 || this.carState.hillLaunched) return;
+
+        const isSweetSpot = (this.carState.rpm >= 2200 && this.carState.rpm <= 3800);
+        const isTooLow = (this.carState.rpm < 1800);
+        const isTooHigh = (this.carState.rpm > 3800);
+
+        if (isSweetSpot) {
+            this.carState.hillLaunched = true;
+            this.carState.speed = 14;
+            const status = document.getElementById('ep2-clutch-status');
+            if (status) {
+                status.textContent = "✅ DÉMARRAGE PARFAIT ! GRAVIS LA CÔTE JUSQU'AU SOMMET !";
+                status.style.color = "#10b981";
+            }
+            const btnHandbrake = document.getElementById('btn-ep2-release-handbrake');
+            if (btnHandbrake) {
+                btnHandbrake.disabled = true;
+                btnHandbrake.textContent = "FREIN DÉSERRÉ ✅";
+                btnHandbrake.style.background = "#10b981";
+            }
+        } else if (isTooLow) {
+            this.addStrike("Moteur calé ! Régime trop bas à l'embrayage");
+            this.carState.rpm = 900;
+        } else if (isTooHigh) {
+            this.addStrike("Surrégime ! Les pneus fument et patinent");
+            this.carState.rpm = 2500;
         }
     }
 
@@ -985,7 +1038,9 @@ class DrivingEngine3D {
             // Collision with Agatha
             const dist = this.car.position.distanceTo(tc.mesh.position);
             if (dist < 2.5) {
-                this.addStrike("Refus de priorité / Choc avec un véhicule");
+                if (this.strikeCooldown <= 0) {
+                    this.addStrike("Refus de priorité / Choc avec un véhicule");
+                }
                 this.carState.speed *= -0.3; // Rebond
             }
         });
@@ -995,7 +1050,9 @@ class DrivingEngine3D {
             if (this.activeBlinker === 'right') {
                 this.triggerVictory();
             } else {
-                this.addStrike("Sortie de rond-point sans clignotant droit !");
+                if (this.strikeCooldown <= 0) {
+                    this.addStrike("Sortie de rond-point sans clignotant droit !");
+                }
                 this.carState.x = 55; // Repousse sur le rond-point
             }
         }
@@ -1054,13 +1111,17 @@ class DrivingEngine3D {
 
         // Choc trottoir ou voiture ?
         if (this.carState.x > 6.8) {
-            this.addStrike("Choc sur la bordure de trottoir !");
+            if (this.strikeCooldown <= 0) {
+                this.addStrike("Choc sur la bordure de trottoir !");
+            }
             this.carState.x = 6.4;
             this.carState.speed = 0;
         }
 
         if (Math.abs(this.carState.x - 5.0) < 1.6 && (this.carState.z < -5.5 || this.carState.z > 5.5)) {
-            this.addStrike("Collision avec un véhicule en stationnement !");
+            if (this.strikeCooldown <= 0) {
+                this.addStrike("Collision avec un véhicule en stationnement !");
+            }
             this.carState.speed = 0;
         }
 
