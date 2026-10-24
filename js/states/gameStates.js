@@ -30,16 +30,26 @@ class GameStateMachine {
                 audioManager.playBgm(AUDIO_TRACKS.MAP);
                 break;
             case STATES.INTRO:
+            case STATES.EPISODE2_INTRO:
                 audioManager.playBgm(AUDIO_TRACKS.INTRO);
+                break;
+            case STATES.EPISODE2_MAP:
+                audioManager.playBgm(AUDIO_TRACKS.MAP);
                 break;
             case STATES.GAME:
                 const strategy = LevelStrategyFactory.getStrategy(this.engine.currentLevel);
                 audioManager.playBgm(strategy.getBgmTrack());
                 break;
+            case STATES.EPISODE2_GAME:
+                const isEp2Boss = (typeof drivingEngine3D !== 'undefined' && drivingEngine3D.currentRound === 3);
+                audioManager.playBgm(isEp2Boss ? AUDIO_TRACKS.BOSS : AUDIO_TRACKS.LEVEL1);
+                break;
             case STATES.VICTORY:
+            case STATES.EPISODE2_VICTORY:
                 audioManager.playBgm(AUDIO_TRACKS.VICTORY);
                 break;
             case STATES.GAMEOVER:
+            case STATES.EPISODE2_GAMEOVER:
                 audioManager.playBgm(AUDIO_TRACKS.GAMEOVER);
                 break;
         }

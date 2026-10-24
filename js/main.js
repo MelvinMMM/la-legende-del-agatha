@@ -153,6 +153,42 @@ window.addEventListener('load', () => {
         engine.stateMachine.setState(STATES.MENU);
     });
 
+    // Épisode 2 Navigation & Buttons
+    const btnEp2BackEp = document.getElementById('btn-ep2-back-episodes');
+    const btnEp2BackMenu = document.getElementById('btn-ep2-back-menu');
+    const btnEp2VicMap = document.getElementById('btn-ep2-victory-map');
+    const btnEp2VicEp = document.getElementById('btn-ep2-victory-episodes');
+    const btnEp2Retry = document.getElementById('btn-ep2-retry-round');
+    const btnEp2QuitMap = document.getElementById('btn-ep2-quit-map');
+
+    if (btnEp2BackEp) btnEp2BackEp.addEventListener('click', () => {
+        audioManager.unlockAudio();
+        engine.stateMachine.setState(STATES.EPISODES);
+    });
+    if (btnEp2BackMenu) btnEp2BackMenu.addEventListener('click', () => {
+        audioManager.unlockAudio();
+        engine.stateMachine.setState(STATES.MENU);
+    });
+    if (btnEp2VicMap) btnEp2VicMap.addEventListener('click', () => {
+        audioManager.unlockAudio();
+        engine.stateMachine.setState(STATES.EPISODE2_MAP);
+    });
+    if (btnEp2VicEp) btnEp2VicEp.addEventListener('click', () => {
+        audioManager.unlockAudio();
+        engine.stateMachine.setState(STATES.EPISODES);
+    });
+    if (btnEp2Retry) btnEp2Retry.addEventListener('click', () => {
+        audioManager.unlockAudio();
+        engine.stateMachine.setState(STATES.EPISODE2_GAME);
+        if (typeof drivingEngine3D !== 'undefined') {
+            drivingEngine3D.startRound(drivingEngine3D.currentRound || 1);
+        }
+    });
+    if (btnEp2QuitMap) btnEp2QuitMap.addEventListener('click', () => {
+        audioManager.unlockAudio();
+        engine.stateMachine.setState(STATES.EPISODE2_MAP);
+    });
+
     // Quiz Options Click Listeners
     document.getElementById('quiz-opt-1').addEventListener('click', () => uiManager.answerQuiz(0, engine.gameState, () => engine.triggerVictory()));
     document.getElementById('quiz-opt-2').addEventListener('click', () => uiManager.answerQuiz(1, engine.gameState, () => engine.triggerVictory()));

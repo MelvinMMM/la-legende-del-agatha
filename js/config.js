@@ -11,7 +11,12 @@ const STATES = {
     GAME: 'GAME',
     VICTORY: 'VICTORY',
     GAMEOVER: 'GAMEOVER',
-    OUTRO: 'OUTRO'
+    OUTRO: 'OUTRO',
+    EPISODE2_INTRO: 'EPISODE2_INTRO',
+    EPISODE2_MAP: 'EPISODE2_MAP',
+    EPISODE2_GAME: 'EPISODE2_GAME',
+    EPISODE2_VICTORY: 'EPISODE2_VICTORY',
+    EPISODE2_GAMEOVER: 'EPISODE2_GAMEOVER'
 };
 
 const AUDIO_TRACKS = {
@@ -38,17 +43,17 @@ const episodeData = {
 const episodeStories = {
     2: {
         title: "ÉPISODE 2 : El Permiso de Conducir",
-        text: `Après les nuits passées à combattre dans les arènes souterraines, Agatha pensait pouvoir souffler. Mais son prochain adversaire l’attendait au tournant.
+        text: `Après les nuits passées à combattre dans les arènes souterraines et à créer des dossiers, Agatha pensait pouvoir souffler un peu. Mais son prochain adversaire l’attendait au tournant. Littéralement.
 
-Pour continuer ses études loin de chez elle, elle devait décrocher un document redoutable : EL PERMISO DE CONDUCIR !
+Car pour continuer ses études loin de chez elle, elle devait décrocher un document redoutable : EL PERMISO DE CONDUCIR !
 
-Sur le siège passager trônait El Moniteur, silhouette sévère, lunettes de fer, carnet de notes à la main.
+L’arène n’était plus une cage métallique : c’était une voiture banale, grise, aux sièges qui sentaient l'angoisse. Sur le siège passager trônait El Moniteur, silhouette sévère, lunettes de fer, carnet de notes à la main.
 
-• 1er round : Le démarrage en côte.
-• 2ème round : Le rond-point infernal.
-• 3ème round : Le créneau, la prise de soumission préférée du boss !
+• 1er Round : Le démarrage en côte (Maîtrise le point de patinage !)
+• 2ème Round : Le rond-point infernal (Drift & clignotants sous haute pression !)
+• 3ème Round : Le créneau de l'angoisse (La prise de soumission d'El Moniteur !)
 
-"Va-t-elle réussir à abattre El Permiso de Conducir ?" (Prochainement dans la suite !)`
+"Va-t-elle réussir à abattre El Permiso de Conducir ?"`
     },
     3: {
         title: "ÉPISODE 3 : El Bailleur",
@@ -108,4 +113,44 @@ const quizQuestions = [
     { q: "En espagnol, comment dit-on 'Au revoir' ?", opts: ["Hola", "Adiós", "Gracias"], correct: 1 },
     { q: "Quel est le nom de la meilleure amie d'Agatha ?", opts: ["Lucie", "Maria", "Elena"], correct: 0 },
     { q: "Comment s'appelle l'attaque rapide d'Agatha ?", opts: ["Plancha Voladora", "Dormez-vous", "Chute libre"], correct: 0 }
+];
+
+const episode2IntroDialogue = [
+    { text: "Après les nuits passées à combattre dans les arènes souterraines et à créer des fichiers et des dossiers...", speaker: "VOIX OFF", img: "Assets/E1/bg1.jpg" },
+    { text: "Agatha pensait pouvoir souffler un peu. Mais son prochain adversaire l'attendait au tournant. Littéralement !", speaker: "VOIX OFF", img: "Assets/E1/bg1.jpg" },
+    { text: "Pour continuer ses études loin de chez elle, elle devait décrocher un document redoutable : EL PERMISO DE CONDUCIR !", speaker: "VOIX OFF", img: "Assets/E1/bg1.jpg" },
+    { text: "L'arène n'était plus une cage métallique. C'était une voiture banale, grise, aux sièges qui sentaient l'angoisse.", speaker: "VOIX OFF", img: "Assets/E1/bg5.jpg" },
+    { text: "Sur le siège passager, trônait El Moniteur. Silhouette sévère, lunettes de fer, carnet de notes à la main.", speaker: "EL MONITEUR", img: "Assets/E1/bg5.jpg" },
+    { text: "Son silence pesait plus lourd que mille provocations de catcheur. Le moteur rugit : le combat commence !", speaker: "VOIX OFF", img: "Assets/E1/bg5.jpg" },
+    { text: "Melvin (depuis le trottoir) : 'Respire, mi ganador ! Chaque embrayage, c'est comme un pas sur le ring. Calme... précis... puissant !'", speaker: "MELVIN (COACH)", img: "Assets/logo.png" },
+    { text: "Lucie (par SMS en rafale) : 'Agatha ! Clignotant ! Clignotant ou tu vas rencontrer Jésus !'", speaker: "LUCIE", img: "Assets/logo.png" },
+    { text: "Agatha : 'Le volant est mon arène. On va montrer à El Moniteur ce que vaut la Lucha Libre !'", speaker: "EL AGATHA", img: "Assets/player/agatha0.png" },
+    { text: "3 ROUNDS. 1 SEULE GLOIRE. ¡ A CONDUCIR !", speaker: "VOIX OFF", img: "Assets/E1/bg5.jpg" }
+];
+
+const episode2Rounds = [
+    {
+        id: 1,
+        title: "ROUND 1 : LE DÉMARRAGE EN CÔTE",
+        subtitle: "L'Épreuve du Point de Patinage",
+        desc: "Maintiens le bon régime moteur (zone verte) sans caler ni reculer dans la voiture de derrière !",
+        icon: "⛰️",
+        boss: "La Pente & La Pression"
+    },
+    {
+        id: 2,
+        title: "ROUND 2 : LE ROND-POINT DES ENFERS",
+        subtitle: "Asphalt Lucha - Trafic & Clignotants",
+        desc: "Fonce à pleine allure, esquive les chauffards et enclenche le clignotant pour prendre la bonne sortie !",
+        icon: "🔄",
+        boss: "Le Trafic Sauvage"
+    },
+    {
+        id: 3,
+        title: "ROUND 3 : LE CRÉNEAU DE L'ANGOISSE",
+        subtitle: "Boss Final : El Moniteur & Son Carnet",
+        desc: "La prise de soumission suprême ! Manœuvre en marche arrière au radar sans toucher le trottoir !",
+        icon: "🅿️",
+        boss: "El Moniteur"
+    }
 ];
