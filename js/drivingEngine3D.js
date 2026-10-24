@@ -360,11 +360,12 @@ class DrivingEngine3D {
         this.brakeLights = [];
         this.blinkerLights = { left: [], right: [] };
 
-        // 1. Car Body (Sedan Low-Poly Auto-École)
+        // 1. Car Body (Sedan Low-Poly Auto-École Stylisée)
+        const bodyColor = 0xf1f5f9; // Blanc auto-école lumineux
         const bodyMat = new THREE.MeshStandardMaterial({
-            color: 0x94a3b8, // Gris auto-école de l'angoisse
-            roughness: 0.35,
-            metalness: 0.25
+            color: bodyColor,
+            roughness: 0.3,
+            metalness: 0.2
         });
 
         // Lower Chassis
@@ -375,31 +376,37 @@ class DrivingEngine3D {
         chassis.receiveShadow = true;
         this.car.add(chassis);
 
-        // Cabin / Roof
-        const cabinMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.1, metalness: 0.6 });
-        const cabinGeo = new THREE.BoxGeometry(1.5, 0.55, 2.0);
+        // Cabin / Roof Pillars (même couleur que la carrosserie pour éviter l'effet voiture de police !)
+        const cabinMat = new THREE.MeshStandardMaterial({ color: bodyColor, roughness: 0.3, metalness: 0.2 });
+        const cabinGeo = new THREE.BoxGeometry(1.48, 0.55, 1.95);
         const cabin = new THREE.Mesh(cabinGeo, cabinMat);
         cabin.position.set(0, 1.05, -0.2);
         cabin.castShadow = true;
         this.car.add(cabin);
 
-        // Roof Sign "AUTO ÉCOLE - LUCHA"
-        const signGeo = new THREE.BoxGeometry(1.0, 0.22, 0.35);
-        const signMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2 });
+        // Windows (Verre teinté bleu clair transparent)
+        const glassMat = new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.1, metalness: 0.8, transparent: true, opacity: 0.8 });
+        const windshield = new THREE.Mesh(new THREE.BoxGeometry(1.49, 0.45, 1.96), glassMat);
+        windshield.position.set(0, 1.05, -0.2);
+        this.car.add(windshield);
+
+        // Roof Sign "AUTO ÉCOLE" (Orange lumineux)
+        const signGeo = new THREE.BoxGeometry(1.1, 0.24, 0.45);
+        const signMat = new THREE.MeshStandardMaterial({ color: 0xf59e0b, roughness: 0.3, emissive: 0x78350f });
         const sign = new THREE.Mesh(signGeo, signMat);
-        sign.position.set(0, 1.42, -0.2);
+        sign.position.set(0, 1.45, -0.2);
         this.car.add(sign);
 
-        // Roof Flashing Amber Light
-        const lightGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.12, 12);
-        const lightMat = new THREE.MeshBasicMaterial({ color: 0xf59e0b });
+        // Roof Flashing Amber Beacon
+        const lightGeo = new THREE.CylinderGeometry(0.09, 0.09, 0.14, 12);
+        const lightMat = new THREE.MeshBasicMaterial({ color: 0xfbbf24 });
         this.roofLight = new THREE.Mesh(lightGeo, lightMat);
-        this.roofLight.position.set(0, 1.58, -0.2);
+        this.roofLight.position.set(0, 1.62, -0.2);
         this.car.add(this.roofLight);
 
         // Mexican Luchadora Decal Band (Pink / Gold)
         const stripeMat = new THREE.MeshBasicMaterial({ color: 0xec4899 });
-        const stripeGeo = new THREE.BoxGeometry(1.82, 0.08, 3.82);
+        const stripeGeo = new THREE.BoxGeometry(1.82, 0.12, 3.82);
         const stripe = new THREE.Mesh(stripeGeo, stripeMat);
         stripe.position.y = 0.55;
         this.car.add(stripe);
@@ -577,6 +584,11 @@ class DrivingEngine3D {
         const banner = new THREE.Mesh(bannerGeo, bannerMat);
         bannerGroup.add(banner);
         roadGroup.add(bannerGroup);
+
+        // Ajouter la voiture d'Agatha directement dans le groupe de la route pour qu'elle soit toujours collée à l'asphalte
+        roadGroup.add(this.car);
+        this.car.position.set(0, 0, 0);
+        this.car.rotation.set(0, 0, 0);
 
         this.scene.add(roadGroup);
         this.roadSlope = slopeAngle;
@@ -954,8 +966,8 @@ class DrivingEngine3D {
             if (this.keys.right) this.carState.x = Math.min(4.5, this.carState.x + delta * 8);
 
             this.carState.z += this.carState.speed * delta;
-            this.car.position.set(this.carState.x, 1.0 + (this.carState.z * Math.sin(this.roadSlope)), this.carState.z * Math.cos(this.roadSlope));
-            this.car.rotation.x = -this.roadSlope;
+            this.car.position.set(this.carState.x, 0, this.carState.z);
+            this.car.rotation.set(0, 0, 0);
 
             this.updateEngineSound(this.carState.speed * 180 + 1000);
 
@@ -1139,14 +1151,20 @@ class DrivingEngine3D {
     updateCamera(delta) {
         if (!this.car || !this.camera) return;
 
-        // Ideal position behind car
-        const offset = new THREE.Vector3(0, 3.2, -6.5);
-        offset.applyAxisAngle(new THREE.Vector3(0, 1, 0), this.car.rotation.y);
+        const carWorldPos = new THREE.Vector3();
+        this.car.getWorldPosition(carWorldPos);
 
-        const targetPos = this.car.position.clone().add(offset);
+        const carWorldQuat = new THREE.Quaternion();
+        this.car.getWorldQuaternion(carWorldQuat);
+
+        // Position idéale derrière la voiture en coordonnées mondiales
+        const offset = new THREE.Vector3(0, 3.2, -6.5);
+        offset.applyQuaternion(carWorldQuat);
+
+        const targetPos = carWorldPos.clone().add(offset);
         this.camera.position.lerp(targetPos, delta * 6);
 
-        const lookAtPos = this.car.position.clone().add(new THREE.Vector3(0, 1.2, 0));
+        const lookAtPos = carWorldPos.clone().add(new THREE.Vector3(0, 1.2, 0));
         this.camera.lookAt(lookAtPos);
     }
 
